@@ -1,3 +1,3 @@
-import Kits from './kits.js';
+const Kits = require("./kits.js")
 
-export default Kits;
+module.exports = Kits

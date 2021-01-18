@@ -363,4 +363,4 @@ kits.userAgentBrowser = () => {
   else false
 }
 
-export default kits
+module.exports=kits
