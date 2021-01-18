@@ -1,6 +1,6 @@
 {
   "name": "hai_kits",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "常用js工具类",
   "main": "index.js",
   "scripts": {
