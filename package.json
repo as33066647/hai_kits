@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/as33066647/my_common.git"
+    "url": "git+https://github.com/as33066647/hai_kits.git"
   },
   "keywords": [
     "kits"
@@ -16,7 +16,7 @@
   "author": "hai",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/as33066647/my_common/issues"
+    "url": "https://github.com/as33066647/hai_kits/issues"
   },
-  "homepage": "https://github.com/as33066647/my_common#readme"
+  "homepage": "https://github.com/as33066647/hai_kits#readme"
 }
