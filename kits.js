@@ -4,11 +4,12 @@ let kits = {};
 
 /**
  * 封装一个获得指定区间的随机整数的方法
- *
- * @return [n,m]区间的随机数
+ * @param {Number} n 最小值  
+ * @param {Number} m 最大值  
+ * @return [n,m]区间的随机数 
  * @example kits.randomInt(2,10)=>[2,10]
  */
-kits.randomInt = function (n, m) {
+kits.randomInt = function (n = 0, m = 1) {
   return Math.floor(Math.random() * (m - n + 1) + n);
 };
 
@@ -16,25 +17,35 @@ kits.randomInt = function (n, m) {
  * 封装格式化时间
  *
  * @return 返回一个现在的时间
- * @example formatTime('2019-7-18 22:03:30',y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s)
+ * @example formatTime('2019-7-18 22:03:30')  => { year,month,day,hour,minute,second }
+ *  
  */
-kits.formateDate = function () {
-  let date = new Date();
-  let y = date.getFullYear();
-  let M = date.getMonth() + 1;
-  let d = date.getDate();
-  let h = date.getHours();
-  let m = date.getMinutes();
-  let s = date.getSeconds();
-  M = M < 10 ? "0" + M : M;
-  d = d < 10 ? "0" + d : d;
-  h = h < 10 ? "0" + h : h;
-  m = m < 10 ? "0" + m : m;
-  s = s < 10 ? "0" + s : s;
-  return y + "-" + M + "-" + d + " " + h + ":" + m + ":" + s;
+kits.formateDate = function (params) {
+  let date = params ? new Date(params) : new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  let second = date.getSeconds();
+  month = month < 10 ? "0" + month : month;
+  day = day < 10 ? "0" + day : day;
+  hour = hour < 10 ? "0" + hour : hour;
+  minute = minute < 10 ? "0" + minute : minute;
+  second = second < 10 ? "0" + second : second;
+  return {
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second
+  };
 };
 
 /**
+ *  倒计时 将开始与结束的差值传入即可
+ * 
  *  @param {data} 需要转成成时分秒的时间戳
  *
  *  @return 返回{hours--小时 min--分钟  sec--秒  millisec--毫秒}
@@ -60,9 +71,39 @@ kits.countDownDate = function (date) {
     hours,
     min,
     sec,
-    millisec: millisec
+    millisec
   };
 };
+
+
+/**
+ * 
+ * @param { Date || "yyyy-hh-dd" } endtime 
+ * @param { Date || "yyyy-hh-dd" } dateNow 
+ * @returns {str} 
+ */
+kits.InitTime = (endtime, dateNow) => {
+  var hour,
+    minute,
+    second = null;
+
+  var time = (new Date(endtime) - new Date(dateNow)) / 1000;
+
+  if (time <= 0) {
+    return '结束'
+
+  } else {
+    hour = Math.floor((time / 60 / 60) % 24); //小时
+    hour = hour < 10 ? "0" + hour : hour;
+    minute = Math.floor((time / 60) % 60); //分钟
+    minute = minute < 10 ? "0" + minute : minute;
+    second = Math.floor(time % 60); //秒
+    second = second < 10 ? "0" + second : second;
+    return (hour + ":" + minute + ":" + second)
+
+  }
+}
+
 
 /**
  * 封装的是一个可以生成唯一id的方法
@@ -102,18 +143,18 @@ kits.arrlevel = function (arr, fjid, parentId) {
 /**
  * 封装获取URL参数中的属性
  *
- * 思路URL参数?切割出来,然后用&分割成 [id=1234,name=1234] 的形式,
+ *   URL参数?切割出来,然后用&分割成 [id=1234,name=1234] 的形式,
  * 然后再次用=分割成[id,1234] [name,12344]的形式,
- * 然后以键等于值创建prams对象 prams[id]=1234,prams[name]=1234
+ * 然后以键等于值创建prams对象 params[id]=1234,params[name]=1234
  */
-kits.getSearchId = function () {
+kits.getSearchParams = function () {
   let arr = location.search.substr(1).split("&");
-  let prams = {};
+  let params = {};
   arr.forEach((e) => {
     arr = e.split("=");
     prams[arr[0]] = arr[1];
   });
-  return prams;
+  return params;
 };
 
 /**
@@ -145,6 +186,8 @@ kits.setSaveMode = () => {
 
 /**
  * 存储localStorage
+ * @param {string} name  localStorage的key
+ * @param {any} content localStorage的value
  */
 kits.setStore = (name, content) => {
   if (!name) return;
@@ -153,6 +196,7 @@ kits.setStore = (name, content) => {
 
 /**
  * 获取localStorage
+ * @param {string} name key
  */
 kits.getStore = name => {
   if (!name) return;
@@ -160,7 +204,8 @@ kits.getStore = name => {
 };
 
 /**
- * 删除localStorage
+ * 删除localStorage 
+ * @param {string} name key
  */
 kits.removeStore = name => {
   if (!name) return;
@@ -168,21 +213,6 @@ kits.removeStore = name => {
 };
 
 
-/**
- * 获取url后参数
- */
-kits.GetRequest = () => {
-  let url = location.search; //获取url中"?"符后的字串
-  let theRequest = new Object();
-  if (url.indexOf('?') != -1) {
-    let str = url.substr(1);
-    let strs = str.split('&');
-    for (let i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split('=')[0]] = strs[i].split('=')[1];
-    }
-  }
-  return theRequest;
-};
 
 /**
  * 生成随机颜色值
@@ -211,16 +241,13 @@ kits.checkPhone = el => {
 
 
 /**
- * 判断微信浏览器
- * @returns {Boolean}
+ * 判断是否为微信浏览器环境
+ * @return {Boolean} true 为微信浏览器
  */
 kits.isWeiXin = () => {
-  let ua = window.navigator.userAgent.toLowerCase();
-  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-    return true;
-  } else {
-    return false;
-  }
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.match(/MicroMessenger/i) == 'micromessenger') return true
+  else return false
 };
 
 /**
@@ -255,7 +282,7 @@ kits.isWifi = () => {
 /**
  * 首字母大写
  * @param str
- * @returns {string}
+ * @return {string}
  */
 kits.fistLetterUpper = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -263,6 +290,7 @@ kits.fistLetterUpper = str => {
 
 /**
  * 过滤非法字符串
+ * @param {Boolean} true 为不含非法字符串
  */
 kits.illegalFilter = str => {
   let regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;
@@ -307,7 +335,11 @@ kits.moneyturn = n => {
   );
 };
 
-// 数字转中文
+
+/**
+ *  数字转中文
+ *  @param {String} num 
+ */
 kits.toDx = num => {
   let dxData = {
     '0': '零',
@@ -331,36 +363,6 @@ kits.toDx = num => {
 };
 
 
-//倒计时
 
-kits.InitTime = (endtime, dateNow) => {
-  var dd, hh, mm, ss = null;
 
-  var time = (new Date(endtime) - new Date(dateNow)) / 1000;
-
-  if (time <= 0) {
-    // clearInterval(time)
-    return '结束'
-
-  } else {
-    // dd = Math.floor(time / 60 / 60 / 24);
-    hh = Math.floor((time / 60 / 60) % 24);
-    mm = Math.floor((time / 60) % 60);
-    ss = Math.floor(time % 60);
-    var str = hh + ":" + mm + ":" + ss;
-    return str;
-  }
-
-}
-
-/**
- * 判断是否为微信浏览器环境
- * @returns {Boolean} true 为微信浏览器
- */
-kits.userAgentBrowser = () => {
-  var ua = navigator.userAgent.toLowerCase();
-  if (ua.match(/MicroMessenger/i) == 'micromessenger') return true
-  else false
-}
-
-module.exports=kits
+module.exports = kits
