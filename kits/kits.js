@@ -82,7 +82,7 @@ kits.countDownDate = function (date) {
  * @param { Date || "yyyy-hh-dd" } dateNow 
  * @returns {str} 
  */
-kits.InitTime = (endtime, dateNow) => {
+kits.initTime = (endtime, dateNow) => {
   var hour,
     minute,
     second = null;
