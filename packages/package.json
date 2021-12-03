@@ -1,0 +1,26 @@
+{
+  "name": "hai_kits",
+  "version": "1.0.3",
+  "description": "常用js工具类",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/as33066647/hai_kits.git"
+  },
+  "keywords": [
+    "kits",
+    "hai_kits",
+    "js",
+    "vue",
+    "html"
+  ],
+  "author": "hai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/as33066647/hai_kits/issues"
+  },
+  "homepage": "https://github.com/as33066647/hai_kits#readme"
+}
