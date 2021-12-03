@@ -11,9 +11,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.js$/,
-      use: {
-        loader: 'babel-loader'
-      },
+      use: ['babel-loader'],
       include: kitsPath,
       exclude: /node_modules/
     }]
